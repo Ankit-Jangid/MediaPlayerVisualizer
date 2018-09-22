@@ -222,10 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     boolean AUDIO = grantResults[0] == PackageManager.PERMISSION_GRANTED;
 
                     if (AUDIO) {
-                        // do stuff here
-//                        {
-//                            Toast.makeText(mActivity,"Camera permission granted",Toast.LENGTH_SHORT).show();
-//                        }
+                        Log.e(TAG, "Audio  permission granted");
                     } else {
                         if (!AUDIO) {
                             new AlertDialog.Builder(this)
@@ -278,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void run() {
                             getAudioMetaInfo();
                             // randomStaticData();
-                            handler.postDelayed(this, 15); // sleep for 800ms
+                            handler.postDelayed(this, 15); // specify the ms to control speed of bars
                         }
 
                     };
@@ -376,22 +373,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void getAudioMetaInfo() {
 
-        /**----Be warned: if you make sleep thread in order for optimization then
+        /**---- if you make sleep thread in order to optimize then
          * you may have the lags between the samples, resulting in variance of animation in
          *  bars visuals */
-        /**
-         *  TODO      : min vlaues will control the SILENCE bars
-         *  TODO     : max values will control the ENERGY bars
-         *  TODO     : VOLUME bars can be done using the getting volume samples /250ms time interval
-         *
-         * */
+
 
         // AudioCapture mAudioCapture = new AudioCapture(AudioCapture.TYPE_PCM, 1024);
         mAudioCapture = new AudioCapture(AudioCapture.TYPE_PCM, 80);
         mAudioCapture.start();
 //        try {
-////                    Thread.sleep(2 * 1000); // specifiy sec to control fluctuations ...
-//            Thread.sleep(500); // specifiy sec to control fluctuations ...
+////                    Thread.sleep(2 * 1000);
+//            Thread.sleep(500);
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
@@ -405,37 +397,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 minValue = value;
             } else if (value > maxValue) {
                 maxValue = value;
-//                Log.e(TAG, " getAudioMetaInfo->>maxValue:" + maxValue);
             }
 
-            animate_AVG(maxValue - minValue, true);  // drawing lines
-            animate_MIN(minValue, true);  // drawing lines
-            animate_MAX(maxValue, true);  // drawing lines
+            animate_AVG(maxValue - minValue, true);
+            animate_MIN(minValue, true);
+            animate_MAX(maxValue, true);
 
 
-        }   //    return maxValue-minValue;
+        }
     }
 
     private void animate_AVG(int value, boolean status) {
-
-
         int color;
-        //  max will be used for energy
-        if (status) {
-
-            color = (value / colorArray.length); // biasing with +1 beat
-
-//              Log.e(TAG, " animate_AVG color-->>" + color + " ,animate_AVG  value:->>" + value);
-
+         if (status) {
+            color = (value / colorArray.length);
             if (color < 15) {
-
 
                 // filling color
                 for (int i = 0; i < color; i++) {
                     rowsArray1[i].setBackground(gdDefault);
                     rowsArray1[i].setBackground(backgroundsArray1[i]);
                 }
-
 
                 // emptying...
                 for (int j = color + 1; j < colorArray.length && j < 15; j++) {
@@ -447,36 +429,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-
-        // min will be used for the silence
-        else {
-
-        }
-
-
     }
 
     private void animate_MIN(int value, boolean status) {
-
-
         int color;
-        //  max will be used for energy
-        if (status) {
+         if (status) {
 
-            //color = value / colorArray.length; // as
-            color = Math.abs(value / colorArray.length); // as
-            // Log.e(TAG, " animate_MIN color-->>" + color + " , animate_MIN value:->>" + value);
+             color = Math.abs(value / colorArray.length); // as
 
             if (color < 15) {
-
 
                 // filling color
                 for (int i = 0; i < color; i++) {
                     rowsArray2[i].setBackground(gdDefault);
                     rowsArray2[i].setBackground(backgroundsArray1[i]);
                 }
-
-
                 //emptying...
                 for (int j = color + 1; j < colorArray.length && j < 15; j++) {
                     rowsArray2[j].setBackground(gdDefault);
@@ -487,35 +454,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-
-        // min will be used for the silence
-        else {
-
-        }
-
-
     }
 
     private void animate_MAX(int value, boolean status) {
-
-
         int color;
-        //  max will be used for energy
-        if (status) {
-
+         if (status) {
             color = value / colorArray.length; // as
-            // Log.e(TAG, " animate_MAX color-->>" + color + " ,animate_MAX value:->>" + value);
-
             if (color < 15) {
-
 
                 // filling color
                 for (int i = 0; i < color; i++) {
                     rowsArray3[i].setBackground(gdDefault);
                     rowsArray3[i].setBackground(backgroundsArray1[i]);
                 }
-
-
                 // emptying...
                 for (int j = color + 1; j < colorArray.length && j < 15; j++) {
                     rowsArray3[j].setBackground(gdDefault);
@@ -525,14 +476,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         }
-
-
-        // min will be used for the silence
-        else {
-
-        }
-
-
     }
 
 
@@ -559,6 +502,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         finish();
     }
 
+    // releasing all occupied resources and stopping background threads ...
     private void releaseResources() {
 
         if (mAudioCapture != null) {
@@ -566,7 +510,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mAudioCapture = null;
         }
 
-        // releasing all occupied resources and stopping background threads ...
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) mediaPlayer.stop();
             mediaPlayer.release();
