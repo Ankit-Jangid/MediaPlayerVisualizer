@@ -3,4 +3,32 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <!-- audio visualizer from bottom to top-->
+    <array name="equalizer_color_array">
+
+        <item name="color15">#00c713</item>
+        <item name="color14">#26f73a</item>
+        <item name="color12">#61f26e</item>
+        <item name="color11">#75ff81</item>
+        <item name="color10">#8fbcfc</item>
+        <item name="color9">#7a9fd4</item>
+        <item name="color8">#5082ca</item>
+        <item name="color7">#3872c6</item>
+        <item name="color6">#2967bf</item>
+        <item name="color5">#f75a5a</item>
+        <item name="color4">#fc5151</item>
+        <item name="color3">#ed4545</item>
+        <item name="color2">#f70101</item>
+        <item name="color1">#d60000</item>
+
+        <!--fake colors-->
+        <item name="color16">#FF4081</item>
+        <item name="color17">#FF4081</item>
+
+
+    </array>
+
+
 </resources>

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Media Player Visualizer</string>
+    <string name="play">Play</string>
+    <string name="storage_permission_needed_msg">App needs permission to access storage</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="audio_permission_needed">App needs audio permission</string>
+    <string name="stop">Stop</string>
+    <string name="amplitude_vizualisation">Amplitude visualization</string>
 </resources>
